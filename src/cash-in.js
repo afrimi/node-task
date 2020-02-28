@@ -1,18 +1,15 @@
 const calculateTax = require('./utils/calculate-tax');
 
 class CashIn {
-    constructor(config) {
-        this.config = config;
-    }
+  constructor(config) {
+    this.config = config;
+  }
 
-    process(amount) {
+  process(amount) {
+    const taxes = calculateTax(amount, this.config.fee);
 
-        const taxes = calculateTax(amount, this.config.fee);
-
-        return (taxes > this.config.maxAmount) ? this.config.maxAmount : taxes;
-
-    }
-
+    return taxes > this.config.maxAmount ? this.config.maxAmount : taxes;
+  }
 }
 
 module.exports = CashIn;

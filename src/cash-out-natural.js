@@ -1,25 +1,24 @@
 const calculateTax = require('./utils/calculate-tax');
 
 class CashOutNatural {
-    constructor(config) {
-        this.config = config;
-    }
+  constructor(config) {
+    this.config = config;
+  }
 
-    process({ user_id, operation: { amount }, date }, total) {
-        return calculateTax(this.getTaxableAmount(total, amount), this.config.fee);
-    }
+  process({ operation: { amount } }, total) {
+    return calculateTax(this.getTaxableAmount(total, amount), this.config.fee);
+  }
 
-    isLimitReached(total) {
-        return total > this.config.weekLimit;
-    }
+  isLimitReached(total) {
+    return total > this.config.weekLimit;
+  }
 
-    getTaxableAmount(total, amount) {
-        if (this.isLimitReached(total)) {
-            return Math.min(total - this.config.weekLimit, amount);
-        }
-        return 0;
+  getTaxableAmount(total, amount) {
+    if (this.isLimitReached(total)) {
+      return Math.min(total - this.config.weekLimit, amount);
     }
-
+    return 0;
+  }
 }
 
 module.exports = CashOutNatural;
